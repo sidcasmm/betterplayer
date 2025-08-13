@@ -28,5 +28,11 @@ class HlsTrackMetadataEntry {
   }
 
   @override
-  int get hashCode => hashValues(groupId, name, variantInfos);
+  int get hashCode => Object.hash(
+        groupId,
+        name,
+        variantInfos != null
+            ? const ListEquality<VariantInfo>().hash(variantInfos!)
+            : null,
+      );
 }
