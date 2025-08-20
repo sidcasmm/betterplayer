@@ -10,11 +10,13 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 ///Widget which uses provided controller to render video player.
 class BetterPlayer extends StatefulWidget {
-  const BetterPlayer({Key? key, required this.controller}) : super(key: key);
+  const BetterPlayer({Key? key, required this.controller, this.onReplayClicked})
+      : super(key: key);
 
   factory BetterPlayer.network(
     String url, {
     BetterPlayerConfiguration? betterPlayerConfiguration,
+    VoidCallback? onReplayClicked,
   }) =>
       BetterPlayer(
         controller: BetterPlayerController(
@@ -22,11 +24,13 @@ class BetterPlayer extends StatefulWidget {
           betterPlayerDataSource:
               BetterPlayerDataSource(BetterPlayerDataSourceType.network, url),
         ),
+        onReplayClicked: onReplayClicked,
       );
 
   factory BetterPlayer.file(
     String url, {
     BetterPlayerConfiguration? betterPlayerConfiguration,
+    VoidCallback? onReplayClicked,
   }) =>
       BetterPlayer(
         controller: BetterPlayerController(
@@ -34,9 +38,11 @@ class BetterPlayer extends StatefulWidget {
           betterPlayerDataSource:
               BetterPlayerDataSource(BetterPlayerDataSourceType.file, url),
         ),
+        onReplayClicked: onReplayClicked,
       );
 
   final BetterPlayerController controller;
+  final VoidCallback? onReplayClicked;
 
   @override
   _BetterPlayerState createState() {
@@ -268,6 +274,7 @@ class _BetterPlayerState extends State<BetterPlayer>
           widget.controller.onPlayerVisibilityChanged(info.visibleFraction),
       child: BetterPlayerWithControls(
         controller: widget.controller,
+        onReplayClicked: widget.onReplayClicked,
       ),
     );
   }

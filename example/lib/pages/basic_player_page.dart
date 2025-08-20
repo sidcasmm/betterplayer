@@ -29,6 +29,18 @@ class _BasicPlayerPageState extends State<BasicPlayerPage> {
             aspectRatio: 16 / 9,
             child: BetterPlayer.network(
               Constants.forBiggerBlazesUrl,
+              onReplayClicked: () {
+                // This callback will be triggered when the replay button is clicked
+                print("Replay button clicked!");
+                // You can add your custom logic here
+                // For example: show a snackbar, log analytics, etc.
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Video replaying!'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
             ),
           ),
           Padding(
@@ -43,7 +55,19 @@ class _BasicPlayerPageState extends State<BasicPlayerPage> {
             future: Utils.getFileUrl(Constants.fileTestVideoUrl),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.data != null) {
-                return BetterPlayer.file(snapshot.data!);
+                return BetterPlayer.file(
+                  snapshot.data!,
+                  onReplayClicked: () {
+                    // This callback will be triggered when the replay button is clicked
+                    print("File video replay button clicked!");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('File video replaying!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                );
               } else {
                 return const SizedBox();
               }

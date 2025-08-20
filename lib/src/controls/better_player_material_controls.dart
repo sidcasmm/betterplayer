@@ -19,10 +19,14 @@ class BetterPlayerMaterialControls extends StatefulWidget {
   ///Controls config
   final BetterPlayerControlsConfiguration controlsConfiguration;
 
+  ///Callback used when replay button is clicked
+  final VoidCallback? onReplayClicked;
+
   const BetterPlayerMaterialControls({
     Key? key,
     required this.onControlsVisibilityChanged,
     required this.controlsConfiguration,
+    this.onReplayClicked,
   }) : super(key: key);
 
   @override
@@ -461,6 +465,9 @@ class _BetterPlayerMaterialControlsState
             ),
       onClicked: () {
         if (isFinished) {
+          // Call the replay callback if provided
+          widget.onReplayClicked?.call();
+
           if (_latestValue != null && _latestValue!.isPlaying) {
             if (_displayTapped) {
               changePlayerControlsNotVisible(true);
